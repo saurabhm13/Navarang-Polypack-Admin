@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "278288352528",
+    "firebase_url": "https://plastic-bag-b75e8-default-rtdb.firebaseio.com",
+    "project_id": "plastic-bag-b75e8",
+    "storage_bucket": "plastic-bag-b75e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278288352528:android:93db9a043fa67b39f51195",
+        "android_client_info": {
+          "package_name": "com.plasticbag.plasticbagadmin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAklqXd1uBMTPEBH5JR_dGOXGMvzKMhrwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278288352528:android:cfaba5fa366fb79ef51195",
+        "android_client_info": {
+          "package_name": "com.plasticbag.plasticbaguser"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAklqXd1uBMTPEBH5JR_dGOXGMvzKMhrwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

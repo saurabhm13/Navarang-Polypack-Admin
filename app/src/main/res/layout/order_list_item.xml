@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/productImage"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/FeatureImageShape" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/SecondaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintEnd_toStartOf="@id/quantity"
+            app:layout_constraintStart_toEndOf="@id/productImage"
+            app:layout_constraintTop_toTopOf="@id/productImage" />
+
+        <TextView
+            android:id="@+id/bayerAddress"
+            style="@style/TertiaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="6dp"
+            android:maxLines="2"
+            app:layout_constraintEnd_toStartOf="@id/expandArrow"
+            app:layout_constraintStart_toEndOf="@id/productImage"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <TextView
+            android:id="@+id/quantity"
+            style="@style/SecondaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/productImage" />
+
+        <ImageView
+            android:id="@+id/expandArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_down_arrow"
+            app:layout_constraintStart_toStartOf="@id/quantity"
+            app:layout_constraintBottom_toBottomOf="@id/productImage"
+            app:layout_constraintEnd_toEndOf="@id/quantity"
+            android:contentDescription="@string/expand" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/moreDetails_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/productImage">
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/bayerName"
+                style="@style/SecondaryText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/minusQuantity"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view1" />
+
+            <TextView
+                android:id="@+id/bayerPhoneNo"
+                style="@style/SecondaryText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/minusQuantity"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bayerName" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/addQuantity"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@color/addColor"
+                android:src="@drawable/ic_add"
+                android:tint="@color/white"
+                app:contentPadding="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/bayerName"
+                app:shapeAppearanceOverlay="@style/FeatureImageShape" />
+
+            <TextView
+                android:id="@+id/editQuantity"
+                style="@style/TertiaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/addQuantity"
+                app:layout_constraintEnd_toStartOf="@id/addQuantity"
+                app:layout_constraintTop_toTopOf="@id/addQuantity" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/minusQuantity"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/minusColor"
+                android:src="@drawable/ic_minus"
+                android:tint="@color/white"
+                app:contentPadding="3dp"
+                app:layout_constraintEnd_toStartOf="@id/editQuantity"
+                app:layout_constraintTop_toTopOf="@id/bayerName"
+                app:shapeAppearanceOverlay="@style/FeatureImageShape" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/deleteProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:text="@string/dispatch"
+                android:layout_marginEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:paddingStart="13dp"
+                android:paddingEnd="13dp"
+                android:background="@drawable/delete_bg"
+                android:tint="@color/darkRed"
+                app:layout_constraintTop_toTopOf="@id/dispatchProduct"
+                app:layout_constraintBottom_toBottomOf="@id/dispatchProduct"
+                app:layout_constraintEnd_toStartOf="@id/dispatchProduct"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/dispatchProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_dispatch"
+                android:layout_marginTop="6dp"
+                android:text="@string/dispatch"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:paddingStart="13dp"
+                android:paddingEnd="13dp"
+                android:background="@drawable/dispatch_bg"
+                android:tint="@color/darkGreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addQuantity" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/deliveredProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delivered"
+                android:layout_marginTop="4dp"
+                android:text="@string/delivered"
+                android:visibility="gone"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"
+                android:paddingStart="13dp"
+                android:paddingEnd="13dp"
+                android:background="@drawable/dispatch_bg"
+                android:tint="@color/darkGreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addQuantity" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
