@@ -18,34 +18,42 @@ class AddEditProductViewModel(): ViewModel() {
     var successCallback: (() -> Unit)? = null
     var errorCallback: (() -> Unit)? = null
 
-    fun saveProductToFirebase(image: Uri, title: String, quantity: String) {
+    fun saveProductToFirebase(title: String, quantity: String) {
 
-        val imageUri: Uri = image
-        val imageRef = storageReference.child("products/images/${UUID.randomUUID()}")
-        val uploadTask = imageRef.putFile(imageUri)
+//        val imageUri: Uri = image
+//        val imageRef = storageReference.child("products/images/${UUID.randomUUID()}")
+//        val uploadTask = imageRef.putFile(imageUri)
 
-        uploadTask.addOnSuccessListener { taskSnapshot ->
-            imageRef.downloadUrl.addOnSuccessListener { uri ->
-                val imageUrl = uri.toString()
+//        uploadTask.addOnSuccessListener { taskSnapshot ->
+//            imageRef.downloadUrl.addOnSuccessListener { uri ->
+//                val imageUrl = uri.toString()
+//
+//                val newChildRef = database.child(PRODUCTS).push()
+//                val pushKey = newChildRef.key
+//                val productDetails = ProductDetails(pushKey!!, imageUrl, title, quantity)
+//                newChildRef.setValue(productDetails)
+//
+//                successCallback?.invoke()
+//
+//            }.addOnFailureListener { exception ->
+//                errorCallback?.invoke()
+//            }
+//        }.addOnFailureListener { exception ->
+//            errorCallback?.invoke()
+//        }
 
-                val newChildRef = database.child(PRODUCTS).push()
-                val pushKey = newChildRef.key
-                val productDetails = ProductDetails(pushKey!!, imageUrl, title, quantity)
-                newChildRef.setValue(productDetails)
+        val newChildRef = database.child(PRODUCTS).push()
+        val pushKey = newChildRef.key
+        val productDetails = ProductDetails(pushKey!!, title, quantity)
+        newChildRef.setValue(productDetails)
 
-                successCallback?.invoke()
-
-            }.addOnFailureListener { exception ->
-                errorCallback?.invoke()
-            }
-        }.addOnFailureListener { exception ->
-            errorCallback?.invoke()
-        }
+        successCallback?.invoke()
     }
 
     fun editTitleQuantityToFirebase(productId: String, title: String, quantity: String) {
-        database.child(PRODUCTS).child(productId).child(TITLE).setValue(title)
-        database.child(PRODUCTS).child(productId).child(QUANTITY).setValue(quantity)
+        val product = ProductDetails(productId, title, quantity)
+
+        database.child(PRODUCTS).child(productId).setValue(product)
             .addOnSuccessListener {
                 successCallback?.invoke()
             }
@@ -63,7 +71,7 @@ class AddEditProductViewModel(): ViewModel() {
             imageRef.downloadUrl.addOnSuccessListener { uri ->
                 val imageUrl = uri.toString()
 
-                val productDetails = ProductDetails(productId, imageUrl, title, quantity)
+                val productDetails = ProductDetails(productId, title, quantity)
 
                 database.child(PRODUCTS).child(productId).setValue(productDetails)
 

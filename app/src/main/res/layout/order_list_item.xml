@@ -12,15 +12,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/productImage"
-            android:layout_width="60dp"
-            android:layout_height="70dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/FeatureImageShape" />
-
         <TextView
             android:id="@+id/title"
             style="@style/SecondaryText"
@@ -28,9 +19,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="4dp"
-            app:layout_constraintEnd_toStartOf="@id/quantity"
-            app:layout_constraintStart_toEndOf="@id/productImage"
-            app:layout_constraintTop_toTopOf="@id/productImage" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/bayerAddress"
@@ -41,8 +33,9 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="6dp"
             android:maxLines="2"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/expandArrow"
-            app:layout_constraintStart_toEndOf="@id/productImage"
+            app:layout_constraintStart_toStartOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
         <TextView
@@ -50,17 +43,18 @@
             style="@style/SecondaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/productImage" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/expandArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_down_arrow"
-            app:layout_constraintStart_toStartOf="@id/quantity"
-            app:layout_constraintBottom_toBottomOf="@id/productImage"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/quantity"
             app:layout_constraintEnd_toEndOf="@id/quantity"
             android:contentDescription="@string/expand" />
 
@@ -70,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/productImage">
+            app:layout_constraintTop_toBottomOf="@id/expandArrow">
 
             <View
                 android:id="@+id/view1"

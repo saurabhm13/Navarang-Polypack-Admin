@@ -34,10 +34,6 @@ class DeliveredOrderAdapter(): RecyclerView.Adapter<DeliveredOrderAdapter.Pendin
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PendingOrderViewHolder, position: Int) {
 
-        Glide.with(holder.itemView)
-            .load(orderList[position].productDetails.image)
-            .into(holder.binding.productImage)
-
         holder.binding.title.text = orderList[position].productDetails.title
         holder.binding.quantity.text = orderList[position].productDetails.quantity + " kg"
         holder.binding.bayerAddress.text = orderList[position].userDetails.address

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.plasticbag.plasticbagadmin.R
 import com.plasticbag.plasticbagadmin.databinding.FragmentPendingOrdersBinding
 import com.plasticbag.plasticbagadmin.presentation.adapter.PendingOrderAdapter
 import kotlinx.coroutines.CoroutineScope
@@ -55,7 +54,7 @@ class PendingOrdersFragment : Fragment() {
                 }
             },
             onDeleteClick = {
-                viewModel.deleteProduct(it)
+                viewModel.deleteOrder(it)
             },
             onDispatchClick = {
                 viewModel.addToDispatch(it)

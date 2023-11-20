@@ -9,12 +9,13 @@ data class OrderDetails(
 //    val bayerPhoneNo: String,
 //    val bayerUserId: String,
 
+    val orderId: String,
     val productDetails: ProductDetails,
     val userDetails: UserDetails
 
 ) {
 
-    constructor(): this(ProductDetails("", "", "", ""),
+    constructor(): this("", ProductDetails("", "", ""),
         UserDetails("", "", "", "", "", ""))
 //    constructor(): this("", "", "", "", "", "", "")
 }

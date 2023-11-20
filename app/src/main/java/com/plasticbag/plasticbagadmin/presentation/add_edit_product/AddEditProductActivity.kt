@@ -28,26 +28,26 @@ class AddEditProductActivity : AppCompatActivity() {
     private lateinit var title: String
     private lateinit var quantity: String
 
-    private var selectedImageUri: Uri? = null
+//    private var selectedImageUri: Uri? = null
+//
+//    private var croppedImageUri: Uri? = null
 
-    private var croppedImageUri: Uri? = null
-
-    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
-        if (result.isSuccessful) {
-            croppedImageUri = result.uriContent!!
-
-            Glide.with(this)
-                .load(croppedImageUri)
-                .into(binding.image)
-
-            removeAddImage()
-        } else {
-            val exception = result.error
-            if (exception != null) {
-                Toast.makeText(this, "Error: ${exception.localizedMessage}", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
+//    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
+//        if (result.isSuccessful) {
+//            croppedImageUri = result.uriContent!!
+//
+//            Glide.with(this)
+//                .load(croppedImageUri)
+//                .into(binding.image)
+//
+//            removeAddImage()
+//        } else {
+//            val exception = result.error
+//            if (exception != null) {
+//                Toast.makeText(this, "Error: ${exception.localizedMessage}", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,30 +71,43 @@ class AddEditProductActivity : AppCompatActivity() {
             title = binding.title.editText?.text.toString().trim()
             quantity = binding.quantity.editText?.text.toString().trim()
 
+//            if (productId != null) {
+//                if (croppedImageUri != null) {
+//                    productId?.let { it1 ->
+//                        viewModel.editProductInFirebase(croppedImageUri!!,
+//                            it1, title, quantity)
+//                    }
+//                }else {
+//                    productId?.let { it1 -> viewModel.editTitleQuantityToFirebase(it1, title, quantity) }
+//                }
+//            }else {
+//                if (title == "" || quantity == "" || croppedImageUri == null) {
+//                    Toast.makeText(this, "Add all fields", Toast.LENGTH_SHORT).show()
+//                    binding.btnSave.visibility = View.VISIBLE
+//                    binding.progressBar.visibility = View.GONE
+//                }else {
+//                    viewModel.saveProductToFirebase(croppedImageUri!!, title, quantity)
+//                }
+//            }
+
             if (productId != null) {
-                if (croppedImageUri != null) {
-                    productId?.let { it1 ->
-                        viewModel.editProductInFirebase(croppedImageUri!!,
-                            it1, title, quantity)
-                    }
-                }else {
-                    productId?.let { it1 -> viewModel.editTitleQuantityToFirebase(it1, title, quantity) }
-                }
+                productId?.let { it1 -> viewModel.editTitleQuantityToFirebase(it1, title, quantity)}
             }else {
-                if (title == "" || quantity == "" || croppedImageUri == null) {
+                if (title == "" || quantity == "") {
                     Toast.makeText(this, "Add all fields", Toast.LENGTH_SHORT).show()
                     binding.btnSave.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.GONE
                 }else {
-                    viewModel.saveProductToFirebase(croppedImageUri!!, title, quantity)
+                    viewModel.saveProductToFirebase(title, quantity)
                 }
             }
 
+
         }
 
-        binding.imageCl.setOnClickListener {
-            startCrop()
-        }
+//        binding.imageCl.setOnClickListener {
+//            startCrop()
+//        }
 
         viewModel.successCallback = {
             clearDataFields()
@@ -112,39 +125,39 @@ class AddEditProductActivity : AppCompatActivity() {
 
     }
 
-    private fun startCrop() {
-        cropImage.launch(
-            CropImageContractOptions(
-                selectedImageUri, CropImageOptions(
-                    guidelines = CropImageView.Guidelines.ON_TOUCH,
-                    cropShape = CropImageView.CropShape.RECTANGLE,
-                    fixAspectRatio = true,
-                    aspectRatioY = 9,
-                    aspectRatioX = 7,
-                    initialCropWindowPaddingRatio = 0f,
-                    cropMenuCropButtonTitle = getString(R.string.send),
-                    outputRequestSizeOptions = CropImageView.RequestSizeOptions.RESIZE_INSIDE,
-                )
-            )
-        )
-    }
+//    private fun startCrop() {
+//        cropImage.launch(
+//            CropImageContractOptions(
+//                selectedImageUri, CropImageOptions(
+//                    guidelines = CropImageView.Guidelines.ON_TOUCH,
+//                    cropShape = CropImageView.CropShape.RECTANGLE,
+//                    fixAspectRatio = true,
+//                    aspectRatioY = 9,
+//                    aspectRatioX = 7,
+//                    initialCropWindowPaddingRatio = 0f,
+//                    cropMenuCropButtonTitle = getString(R.string.send),
+//                    outputRequestSizeOptions = CropImageView.RequestSizeOptions.RESIZE_INSIDE,
+//                )
+//            )
+//        )
+//    }
 
     private fun clearDataFields() {
         binding.title.editText?.setText("")
         binding.quantity.editText?.setText("")
 
-        Glide.with(this)
-            .load("")
-            .into(binding.image)
-
-        binding.addBgImg.visibility = View.VISIBLE
-        binding.imgAdd.visibility = View.VISIBLE
+//        Glide.with(this)
+//            .load("")
+//            .into(binding.image)
+//
+//        binding.addBgImg.visibility = View.VISIBLE
+//        binding.imgAdd.visibility = View.VISIBLE
 
     }
 
     private fun removeAddImage() {
-        binding.addBgImg.visibility = View.GONE
-        binding.imgAdd.visibility = View.GONE
+//        binding.addBgImg.visibility = View.GONE
+//        binding.imgAdd.visibility = View.GONE
     }
 
     private fun setIncomingData() {
@@ -156,9 +169,9 @@ class AddEditProductActivity : AppCompatActivity() {
         quantity = intent.getStringExtra(QUANTITY).toString()
         image = intent.getStringExtra(IMAGE).toString()
 
-        Glide.with(this)
-            .load(image)
-            .into(binding.image)
+//        Glide.with(this)
+//            .load(image)
+//            .into(binding.image)
 
         binding.title.editText?.setText(title)
         binding.quantity.editText?.setText(quantity)

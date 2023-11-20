@@ -14,49 +14,46 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/SecondaryText"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/deny"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/phoneNo"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/TertiaryText"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/deny"
             app:layout_constraintTop_toBottomOf="@id/name"/>
 
         <TextView
             android:id="@+id/email"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/TertiaryText"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/deny"
             app:layout_constraintTop_toBottomOf="@id/phoneNo"/>
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/approve"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_check"
-            app:contentPadding="8dp"
-            android:background="@color/lightGreen"
-            android:tint="@color/darkGreen"
-            app:shapeAppearanceOverlay="@style/ProfileImageShape"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/deny"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_clear"
+            android:src="@drawable/ic_delete"
             android:layout_marginEnd="8dp"
             app:contentPadding="8dp"
             android:background="@color/lightRed"
             android:tint="@color/darkRed"
             app:shapeAppearanceOverlay="@style/ProfileImageShape"
-            app:layout_constraintEnd_toStartOf="@id/approve"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

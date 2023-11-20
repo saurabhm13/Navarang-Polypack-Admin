@@ -1,4 +1,4 @@
-package com.plasticbag.plasticbagadmin.presentation.main
+package com.plasticbag.plasticbagadmin.presentation.login_request
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,36 +7,34 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.plasticbag.plasticbagadmin.R
-import com.plasticbag.plasticbagadmin.databinding.FragmentLoginRequestBinding
-import com.plasticbag.plasticbagadmin.databinding.LoginReqListItemBinding
-import com.plasticbag.plasticbagadmin.presentation.adapter.LoginRequestAdapter
+import com.plasticbag.plasticbagadmin.databinding.FragmentNotVerifiedBinding
+import com.plasticbag.plasticbagadmin.presentation.adapter.NotVerifiedAdapter
 
-class LoginRequestFragment : Fragment() {
+class NotVerifiedUserFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginRequestBinding
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var binding: FragmentNotVerifiedBinding
+    private val viewModel: LoginRequestViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentLoginRequestBinding.inflate(layoutInflater, container, false)
+        binding = FragmentNotVerifiedBinding.inflate(layoutInflater, container, false)
 
-        viewModel.getLoginRequest()
+        viewModel.getNotVerifiedUsers()
         prepareRecyclerView()
 
         return binding.root
     }
 
     private fun prepareRecyclerView() {
-        val loginAdapter = LoginRequestAdapter(
+        val loginAdapter = NotVerifiedAdapter(
             onApproveClick = {
                 viewModel.approveLoginRequest(it)
             },
             onDenyClick = {
-                viewModel.denyLoginRequest(it)
+//                viewModel.denyLoginRequest(it)
             }
         )
 
@@ -45,7 +43,7 @@ class LoginRequestFragment : Fragment() {
             adapter = loginAdapter
         }
 
-        viewModel.loginRequestLiveData.observe(viewLifecycleOwner) {
+        viewModel.notVerifiedUsersLiveData.observe(viewLifecycleOwner) {
             loginAdapter.setProductList(it)
         }
     }

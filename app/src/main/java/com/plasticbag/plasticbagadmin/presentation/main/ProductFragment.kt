@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.plasticbag.plasticbagadmin.databinding.FragmentProductBinding
 import com.plasticbag.plasticbagadmin.presentation.adapter.ProductAdapter
 import com.plasticbag.plasticbagadmin.presentation.add_edit_product.AddEditProductActivity
@@ -43,7 +44,7 @@ class ProductFragment : Fragment() {
         val productAdapter = ProductAdapter(
             onItemClick = {
                 val intoAddEdit = Intent(activity, AddEditProductActivity::class.java)
-                intoAddEdit.putExtra(IMAGE, it.image)
+//                intoAddEdit.putExtra(IMAGE, it.image)
                 intoAddEdit.putExtra(TITLE, it.title)
                 intoAddEdit.putExtra(QUANTITY, it.quantity)
                 intoAddEdit.putExtra(PRODUCT_ID, it.productId)
@@ -52,7 +53,7 @@ class ProductFragment : Fragment() {
         )
 
         binding.productRv.apply {
-            layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = productAdapter
         }
 

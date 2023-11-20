@@ -43,10 +43,12 @@ class OrderViewModel(): ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val orderList = mutableListOf<OrderDetails>()
 
-                for (dataSnapshot in snapshot.children) {
-                    val order = dataSnapshot.getValue(OrderDetails::class.java)
-                    order?.let {
-                        orderList.add(order)
+                for (orderSnapshot in snapshot.children) {
+                    for (productSnapshot in orderSnapshot.children) {
+                        val order = productSnapshot.getValue(OrderDetails::class.java)
+                        order?.let {
+                            orderList.add(order)
+                        }
                     }
                 }
 
@@ -65,10 +67,12 @@ class OrderViewModel(): ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val orderList = mutableListOf<OrderDetails>()
 
-                for (dataSnapshot in snapshot.children) {
-                    val order = dataSnapshot.getValue(OrderDetails::class.java)
-                    order?.let {
-                        orderList.add(order)
+                for (orderSnapshot in snapshot.children) {
+                    for (productSnapshot in orderSnapshot.children) {
+                        val order = productSnapshot.getValue(OrderDetails::class.java)
+                        order?.let {
+                            orderList.add(order)
+                        }
                     }
                 }
 
@@ -109,7 +113,7 @@ class OrderViewModel(): ViewModel() {
         val newQuantity = order.productDetails.quantity.toInt()+1
 
         if (productQuantity.toInt() > 0) {
-            database.child(ADMIN).child(ORDERS).child(PENDING).child(order.productDetails.productId).child("productDetails").child(
+            database.child(ADMIN).child(ORDERS).child(PENDING).child(order.orderId).child(order.productDetails.productId).child("productDetails").child(
                 QUANTITY).setValue(newQuantity.toString())
                 .addOnSuccessListener {
                     successCallBack?.invoke()
@@ -131,7 +135,7 @@ class OrderViewModel(): ViewModel() {
         val newQuantity = order.productDetails.quantity.toInt()-1
 
         if (newQuantity >= 1) {
-            database.child(ADMIN).child(ORDERS).child(PENDING).child(order.productDetails.productId).child("productDetails").child(
+            database.child(ADMIN).child(ORDERS).child(PENDING).child(order.orderId).child(order.productDetails.productId).child("productDetails").child(
                 QUANTITY).setValue(newQuantity.toString())
                 .addOnSuccessListener {
                     successCallBack?.invoke()
@@ -149,8 +153,8 @@ class OrderViewModel(): ViewModel() {
         }
     }
 
-    fun deleteProduct(order: OrderDetails) {
-        database.child(ADMIN).child(ORDERS).child(PENDING).child(order.productDetails.productId).removeValue()
+    fun deleteOrder(order: OrderDetails) {
+        database.child(ADMIN).child(ORDERS).child(PENDING).child(order.orderId).removeValue()
             .addOnSuccessListener {
                 successCallBack?.invoke()
             }
@@ -158,11 +162,11 @@ class OrderViewModel(): ViewModel() {
                 errorCallBack?.invoke()
             }
 
-        database.child(USER).child(order.userDetails.userId).child(ORDERS).child(PENDING).child(order.productDetails.productId).removeValue()
+        database.child(USER).child(order.userDetails.userId).child(ORDERS).child(PENDING).child(order.orderId).removeValue()
     }
 
     fun addToDispatch(order: OrderDetails) {
-        database.child(ADMIN).child(ORDERS).child(DISPATCH).child(order.productDetails.productId).setValue(order)
+        database.child(ADMIN).child(ORDERS).child(DISPATCH).child(order.orderId).child(order.productDetails.productId).setValue(order)
             .addOnSuccessListener {
                 successCallBack?.invoke()
             }
@@ -170,9 +174,9 @@ class OrderViewModel(): ViewModel() {
                 errorCallBack?.invoke()
             }
 
-        database.child(USER).child(order.userDetails.userId).child(ORDERS).child(DISPATCH).child(order.productDetails.productId).setValue(order.productDetails)
+        database.child(USER).child(order.userDetails.userId).child(ORDERS).child(DISPATCH).child(order.orderId).child(order.productDetails.productId).setValue(order.productDetails)
 
-        database.child(ADMIN).child(ORDERS).child(PENDING).child(order.productDetails.productId).removeValue()
+        database.child(ADMIN).child(ORDERS).child(PENDING).child(order.orderId).removeValue()
             .addOnSuccessListener {
                 successCallBack?.invoke()
             }
@@ -180,7 +184,7 @@ class OrderViewModel(): ViewModel() {
                 errorCallBack?.invoke()
             }
 
-        database.child(USER).child(order.userDetails.userId).child(ORDERS).child(PENDING).child(order.productDetails.productId).removeValue()
+        database.child(USER).child(order.userDetails.userId).child(ORDERS).child(PENDING).child(order.orderId).removeValue()
 
     }
 

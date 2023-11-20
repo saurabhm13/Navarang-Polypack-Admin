@@ -6,9 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
-import com.plasticbag.plasticbagadmin.R
 import com.plasticbag.plasticbagadmin.databinding.FragmentOrderBinding
-import com.plasticbag.plasticbagadmin.presentation.adapter.ViewPagerAdapter
+import com.plasticbag.plasticbagadmin.presentation.adapter.OrderVPAdapter
 
 class OrderFragment : Fragment() {
 
@@ -21,14 +20,14 @@ class OrderFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentOrderBinding.inflate(layoutInflater, container, false)
 
-        val pagerAdapter = ViewPagerAdapter(this)
+        val pagerAdapter = OrderVPAdapter(this)
         binding.viewPager.adapter = pagerAdapter
 
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             when (position){
                 0 -> tab.text = "Pending"
                 1 -> tab.text = "Dispatched"
-                2 -> tab.text = "Delivered"
+//                2 -> tab.text = "Delivered"
             }
         }.attach()
 

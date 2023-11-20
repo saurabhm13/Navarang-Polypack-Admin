@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_order" />
     <fragment
         android:id="@+id/loginRequestFragment"
-        android:name="com.plasticbag.plasticbagadmin.presentation.main.LoginRequestFragment"
+        android:name="com.plasticbag.plasticbagadmin.presentation.login_request.LoginRequestFragment"
         android:label="fragment_login_request"
         tools:layout="@layout/fragment_login_request" />
 </navigation>
