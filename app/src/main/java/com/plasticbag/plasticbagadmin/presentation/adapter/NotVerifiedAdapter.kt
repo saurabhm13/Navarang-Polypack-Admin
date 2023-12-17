@@ -8,8 +8,7 @@ import com.plasticbag.plasticbagadmin.databinding.NotVerifiedListItemBinding
 import com.plasticbag.plasticbagadmin.model.LoginRequest
 
 class NotVerifiedAdapter(
-    private var onApproveClick: (LoginRequest) -> Unit,
-    private var onDenyClick: (LoginRequest) -> Unit
+    private var onApproveClick: (LoginRequest) -> Unit
 ): RecyclerView.Adapter<NotVerifiedAdapter.LoginRequestViewHolder>() {
 
     private var loginRequestList = ArrayList<LoginRequest>()
@@ -39,10 +38,6 @@ class NotVerifiedAdapter(
         holder.binding.approve.setOnClickListener {
             onApproveClick.invoke(loginRequestList[position])
         }
-
-//        holder.binding.deny.setOnClickListener {
-//            onDenyClick.invoke(loginRequestList[position])
-//        }
 
     }
 

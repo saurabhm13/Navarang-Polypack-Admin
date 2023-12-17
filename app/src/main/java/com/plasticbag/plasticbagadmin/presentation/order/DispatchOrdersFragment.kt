@@ -5,13 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.plasticbag.plasticbagadmin.R
 import com.plasticbag.plasticbagadmin.databinding.FragmentDispatchOrdersBinding
-import com.plasticbag.plasticbagadmin.databinding.FragmentPendingOrdersBinding
 import com.plasticbag.plasticbagadmin.presentation.adapter.DispatchOrderAdapter
-import com.plasticbag.plasticbagadmin.presentation.adapter.PendingOrderAdapter
 
 class DispatchOrdersFragment : Fragment() {
 
@@ -28,13 +26,17 @@ class DispatchOrdersFragment : Fragment() {
         viewModel.getDispatchOrder()
         prepareRecyclerView()
 
+        viewModel.errorCallBack = {
+            Toast.makeText(activity, "Error: $it", Toast.LENGTH_SHORT).show()
+        }
+
         return binding.root
     }
 
     private fun prepareRecyclerView() {
         val orderAdapter = DispatchOrderAdapter(
-            onDeliveredClick = {
-                viewModel.addToDelivered(it)
+            onDeleteDispatchOrderClick = {
+                viewModel.deleteDispatchOrder(it)
             }
         )
 

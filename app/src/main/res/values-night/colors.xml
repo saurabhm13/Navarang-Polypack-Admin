@@ -13,8 +13,8 @@
     <color name="lightGreen">#A6EF9A</color>
     <color name="darkGreen">#308703</color>
 
-    <color name="evenBackgroundColor">#D8D8D8</color>
-    <color name="oddBackgroundColor">#F0F0F0</color>
+    <color name="evenBackgroundColor">#7E7D7D</color>
+    <color name="oddBackgroundColor">#4A4A4A</color>
 
     <color name="orderDateViewColor">#03A9F4</color>
 </resources>

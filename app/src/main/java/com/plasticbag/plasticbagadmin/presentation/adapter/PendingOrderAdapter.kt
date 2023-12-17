@@ -42,11 +42,11 @@ class PendingOrderAdapter(
         holder.binding.title.text = orderList[position].productDetails.title
         holder.binding.quantity.text = orderList[position].productDetails.quantity+" kg"
         holder.binding.editQuantity.text = orderList[position].productDetails.quantity+ " kg"
-        holder.binding.bayerAddress.text = orderList[position].userDetails.address
         holder.binding.bayerName.text = orderList[position].userDetails.name
         holder.binding.bayerPhoneNo.text = orderList[position].userDetails.phoneNo
 
-        holder.binding.deliveredProduct.visibility = View.GONE
+        holder.binding.orderDate.text = orderList[position].orderDateTime
+
 
         holder.binding.expandArrow.setOnClickListener {
             if (holder.binding.moreDetailsCl.isVisible) {

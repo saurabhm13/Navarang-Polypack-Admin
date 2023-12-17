@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.plasticbag.plasticbagadmin.R
 import com.plasticbag.plasticbagadmin.databinding.OrderListItemBinding
 import com.plasticbag.plasticbagadmin.model.OrderDetails
 
 class DispatchOrderAdapter(
-    private val onDeliveredClick: (OrderDetails) -> Unit
+    private val onDeleteDispatchOrderClick: (OrderDetails) -> Unit
 ): RecyclerView.Adapter<DispatchOrderAdapter.PendingOrderViewHolder>() {
 
     private var orderList = ArrayList<OrderDetails>()
@@ -38,11 +37,13 @@ class DispatchOrderAdapter(
 
         holder.binding.title.text = orderList[position].productDetails.title
         holder.binding.quantity.text = orderList[position].productDetails.quantity + " kg"
-        holder.binding.bayerAddress.text = orderList[position].userDetails.address
+//        holder.binding.bayerAddress.text = orderList[position].userDetails.address
         holder.binding.bayerName.text = orderList[position].userDetails.name
         holder.binding.bayerPhoneNo.text = orderList[position].userDetails.phoneNo
 
-        holder.binding.deliveredProduct.visibility = View.VISIBLE
+        holder.binding.orderDate.text = orderList[position].orderDateTime
+
+        holder.binding.deleteDispatchOrder.visibility = View.VISIBLE
         holder.binding.addQuantity.visibility = View.GONE
         holder.binding.minusQuantity.visibility = View.GONE
         holder.binding.deleteProduct.visibility = View.GONE
@@ -59,8 +60,12 @@ class DispatchOrderAdapter(
             }
         }
 
-        holder.binding.deliveredProduct.setOnClickListener {
-            onDeliveredClick.invoke(orderList[position])
+        holder.binding.dispatchDate.text = orderList[position].dispatchDateTime
+        holder.binding.pointViewDD.visibility = View.VISIBLE
+        holder.binding.horViewDD.visibility = View.VISIBLE
+
+        holder.binding.deleteDispatchOrder.setOnClickListener {
+            onDeleteDispatchOrderClick.invoke(orderList[position])
         }
 
     }

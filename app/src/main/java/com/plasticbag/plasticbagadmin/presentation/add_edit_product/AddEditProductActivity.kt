@@ -105,6 +105,11 @@ class AddEditProductActivity : AppCompatActivity() {
 
         }
 
+        binding.btnDelete.setOnClickListener {
+            productId?.let { it1 -> viewModel.deleteProduct(it1) }
+            finish()
+        }
+
 //        binding.imageCl.setOnClickListener {
 //            startCrop()
 //        }
@@ -117,10 +122,14 @@ class AddEditProductActivity : AppCompatActivity() {
 
         }
 
-        viewModel.errorCallback = {
-            Toast.makeText(this, "Error occurred, Try Again!!", Toast.LENGTH_SHORT).show()
+        viewModel.errorCallBack = {
+            Toast.makeText(this, "Error: $it", Toast.LENGTH_SHORT).show()
             binding.btnSave.visibility = View.VISIBLE
             binding.progressBar.visibility = View.GONE
+        }
+
+        viewModel.deleteCallBack = {
+            Toast.makeText(this, "Deleted Successfully!!", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -175,5 +184,7 @@ class AddEditProductActivity : AppCompatActivity() {
 
         binding.title.editText?.setText(title)
         binding.quantity.editText?.setText(quantity)
+
+        binding.btnDelete.visibility = View.VISIBLE
     }
 }

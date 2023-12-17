@@ -17,10 +17,10 @@ class MainViewModel(): ViewModel() {
     private var _productLiveData = MutableLiveData<List<ProductDetails>>()
     val productLiveData: LiveData<List<ProductDetails>> get() = _productLiveData
 
-
+    var errorCallBack: ((String) -> Unit)? = null
 
     fun getProducts() {
-        database.child(PRODUCTS).addValueEventListener(object : ValueEventListener{
+        database.child(PRODUCTS).orderByChild("title").addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val productList = mutableListOf<ProductDetails>()
 
@@ -36,7 +36,7 @@ class MainViewModel(): ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                errorCallBack?.invoke(error.message)
             }
 
         })

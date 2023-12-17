@@ -16,7 +16,8 @@ class AddEditProductViewModel(): ViewModel() {
     private val storageReference = FirebaseStorage.getInstance().reference
 
     var successCallback: (() -> Unit)? = null
-    var errorCallback: (() -> Unit)? = null
+    var errorCallBack: ((String) -> Unit)? = null
+    var deleteCallBack: (() -> Unit)? = null
 
     fun saveProductToFirebase(title: String, quantity: String) {
 
@@ -58,7 +59,7 @@ class AddEditProductViewModel(): ViewModel() {
                 successCallback?.invoke()
             }
             .addOnFailureListener {
-                errorCallback?.invoke()
+                it.message?.let { it1 -> errorCallBack?.invoke(it1) }
             }
     }
 
@@ -77,12 +78,22 @@ class AddEditProductViewModel(): ViewModel() {
 
                 successCallback?.invoke()
 
-            }.addOnFailureListener { exception ->
-                errorCallback?.invoke()
+            }.addOnFailureListener {
+                it.message?.let { it1 -> errorCallBack?.invoke(it1) }
             }
-        }.addOnFailureListener { exception ->
-            errorCallback?.invoke()
+        }.addOnFailureListener {
+            it.message?.let { it1 -> errorCallBack?.invoke(it1) }
         }
+    }
+
+    fun deleteProduct(productId: String) {
+        database.child(PRODUCTS).child(productId).removeValue()
+            .addOnSuccessListener {
+                deleteCallBack?.invoke()
+            }
+            .addOnFailureListener {
+                it.message?.let { it1 -> errorCallBack?.invoke(it1) }
+            }
     }
 
 }

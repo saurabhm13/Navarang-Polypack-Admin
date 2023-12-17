@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.plasticbag.plasticbagadmin.model.OrderDetails
+import com.plasticbag.plasticbagadmin.model.UserOrderDetails
 import com.plasticbag.plasticbagadmin.util.Constants.Companion.ADMIN
 import com.plasticbag.plasticbagadmin.util.Constants.Companion.DELIVERED
 import com.plasticbag.plasticbagadmin.util.Constants.Companion.DISPATCH
@@ -18,6 +19,9 @@ import com.plasticbag.plasticbagadmin.util.Constants.Companion.QUANTITY
 import com.plasticbag.plasticbagadmin.util.Constants.Companion.USER
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class OrderViewModel(): ViewModel() {
 
@@ -36,7 +40,7 @@ class OrderViewModel(): ViewModel() {
     val productQuantityLiveData: LiveData<String> get() = _productQuantityLiveData
 
     var successCallBack: (() -> Unit)? = null
-    var errorCallBack: (() -> Unit)? = null
+    var errorCallBack: ((String) -> Unit)? = null
 
     fun getPendingOrder() {
         database.child(ADMIN).child(ORDERS).child(PENDING).addValueEventListener(object : ValueEventListener {
@@ -56,7 +60,7 @@ class OrderViewModel(): ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                errorCallBack?.invoke(error.message)
             }
 
         })
@@ -80,7 +84,7 @@ class OrderViewModel(): ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                errorCallBack?.invoke(error.message)
             }
 
         })
@@ -102,7 +106,7 @@ class OrderViewModel(): ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                errorCallBack?.invoke(error.message)
             }
 
         })
@@ -112,17 +116,17 @@ class OrderViewModel(): ViewModel() {
 
         val newQuantity = order.productDetails.quantity.toInt()+1
 
-        if (productQuantity.toInt() > 0) {
+        if (productQuantity != "null" && productQuantity.toInt() > 0) {
             database.child(ADMIN).child(ORDERS).child(PENDING).child(order.orderId).child(order.productDetails.productId).child("productDetails").child(
                 QUANTITY).setValue(newQuantity.toString())
                 .addOnSuccessListener {
                     successCallBack?.invoke()
                 }
                 .addOnFailureListener {
-                    errorCallBack?.invoke()
+                    it.message?.let { it1 -> errorCallBack?.invoke(it1) }
                 }
 
-            database.child(USER).child(order.userDetails.userId).child(ORDERS).child(PENDING).child(order.productDetails.productId).child(
+            database.child(USER).child(order.userDetails.userId).child(ORDERS).child(PENDING).child(order.orderId).child(order.productDetails.productId).child(
                 QUANTITY).setValue(newQuantity.toString())
 
             database.child(PRODUCTS).child(order.productDetails.productId).child(QUANTITY).setValue((productQuantity.toInt()-1).toString())
@@ -134,14 +138,14 @@ class OrderViewModel(): ViewModel() {
 
         val newQuantity = order.productDetails.quantity.toInt()-1
 
-        if (newQuantity >= 1) {
+        if (productQuantity != "null" && newQuantity >= 1) {
             database.child(ADMIN).child(ORDERS).child(PENDING).child(order.orderId).child(order.productDetails.productId).child("productDetails").child(
                 QUANTITY).setValue(newQuantity.toString())
                 .addOnSuccessListener {
                     successCallBack?.invoke()
                 }
                 .addOnFailureListener {
-                    errorCallBack?.invoke()
+                    it.message?.let { it1 -> errorCallBack?.invoke(it1) }
                 }
 
             database.child(USER).child(order.userDetails.userId).child(ORDERS).child(PENDING).child(order.productDetails.productId).child(
@@ -159,29 +163,34 @@ class OrderViewModel(): ViewModel() {
                 successCallBack?.invoke()
             }
             .addOnFailureListener {
-                errorCallBack?.invoke()
+                it.message?.let { it1 -> errorCallBack?.invoke(it1) }
             }
 
         database.child(USER).child(order.userDetails.userId).child(ORDERS).child(PENDING).child(order.orderId).removeValue()
     }
 
     fun addToDispatch(order: OrderDetails) {
-        database.child(ADMIN).child(ORDERS).child(DISPATCH).child(order.orderId).child(order.productDetails.productId).setValue(order)
+
+        val dispatchOrder = OrderDetails(order.orderId, order.orderDateTime, getCurrentDate(), order.productDetails, order.userDetails)
+        val userOrderDetails = UserOrderDetails(order.orderId, order.orderDateTime, getCurrentDate(),
+        order.productDetails.productId, order.productDetails.title, order.productDetails.quantity)
+
+        database.child(ADMIN).child(ORDERS).child(DISPATCH).child(order.orderId).child(order.productDetails.productId).setValue(dispatchOrder)
             .addOnSuccessListener {
                 successCallBack?.invoke()
             }
             .addOnFailureListener {
-                errorCallBack?.invoke()
+                it.message?.let { it1 -> errorCallBack?.invoke(it1) }
             }
 
-        database.child(USER).child(order.userDetails.userId).child(ORDERS).child(DISPATCH).child(order.orderId).child(order.productDetails.productId).setValue(order.productDetails)
+        database.child(USER).child(order.userDetails.userId).child(ORDERS).child(DISPATCH).child(order.orderId).child(order.productDetails.productId).setValue(userOrderDetails)
 
         database.child(ADMIN).child(ORDERS).child(PENDING).child(order.orderId).removeValue()
             .addOnSuccessListener {
                 successCallBack?.invoke()
             }
             .addOnFailureListener {
-                errorCallBack?.invoke()
+                it.message?.let { it1 -> errorCallBack?.invoke(it1) }
             }
 
         database.child(USER).child(order.userDetails.userId).child(ORDERS).child(PENDING).child(order.orderId).removeValue()
@@ -194,7 +203,7 @@ class OrderViewModel(): ViewModel() {
                 successCallBack?.invoke()
             }
             .addOnFailureListener {
-                errorCallBack?.invoke()
+                it.message?.let { it1 -> errorCallBack?.invoke(it1) }
             }
 
         database.child(USER).child(order.userDetails.userId).child(ORDERS).child(DELIVERED).child(order.productDetails.productId).setValue(order.productDetails)
@@ -204,11 +213,15 @@ class OrderViewModel(): ViewModel() {
                 successCallBack?.invoke()
             }
             .addOnFailureListener {
-                errorCallBack?.invoke()
+                it.message?.let { it1 -> errorCallBack?.invoke(it1) }
             }
 
         database.child(USER).child(order.userDetails.userId).child(ORDERS).child(DISPATCH).child(order.productDetails.productId).removeValue()
 
+    }
+
+    fun deleteDispatchOrder(order: OrderDetails) {
+        database.child(ADMIN).child(ORDERS).child(DISPATCH).child(order.orderId).removeValue()
     }
 
     fun getProductQuantity(productId: String): String {
@@ -220,7 +233,7 @@ class OrderViewModel(): ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                errorCallBack?.invoke(error.message)
             }
 
         })
@@ -247,6 +260,12 @@ class OrderViewModel(): ViewModel() {
 
         }
         job.await()
+    }
+
+    private fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("dd-MM-yy", Locale.getDefault())
+        val currentDate = Date()
+        return dateFormat.format(currentDate)
     }
 
 

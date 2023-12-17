@@ -1,6 +1,7 @@
 package com.plasticbag.plasticbagadmin.presentation.login_signup
 
 import android.app.Activity
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.plasticbag.plasticbagadmin.model.AdminDetails
 import java.util.concurrent.TimeUnit
+
 
 class LoginSignupViewModel(): ViewModel() {
 
@@ -27,7 +29,8 @@ class LoginSignupViewModel(): ViewModel() {
     val verificationError: LiveData<String> get() = _verificationError
 
     var authCallback: (() -> Unit)? = null
-    var errorCallback: (() -> Unit)? = null
+    var errorCallback: ((String) -> Unit)? = null
+    var resetEmailSendCallback: (() -> Unit)? = null
 
     // Register user by email and password and also save user data in realtime database
     fun registerUser(email: String, password: String, username: String, phoneNo: String) {
@@ -52,9 +55,22 @@ class LoginSignupViewModel(): ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     authCallback?.invoke()
-                } else {
-                    errorCallback?.invoke()
                 }
+            }
+            .addOnFailureListener {
+                errorCallback?.invoke(it.message.toString())
+            }
+    }
+
+    fun resetPassword(email: String) {
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    resetEmailSendCallback?.invoke()
+                }
+            }
+            .addOnFailureListener {
+                errorCallback?.invoke(it.message.toString())
             }
     }
 

@@ -26,4 +26,6 @@
     <string name="quantity">Quantity</string>
     <string name="title">Title</string>
     <string name="expand">Expand</string>
+    <string name="delete">Delete</string>
+    <string name="recovery_info">If email exist on our database we will send a recovery email</string>
 </resources>

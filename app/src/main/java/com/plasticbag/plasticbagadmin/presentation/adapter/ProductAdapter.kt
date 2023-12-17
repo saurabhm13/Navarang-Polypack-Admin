@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.plasticbag.plasticbagadmin.R
 import com.plasticbag.plasticbagadmin.databinding.ProductListItemBinding
 import com.plasticbag.plasticbagadmin.model.ProductDetails
 
@@ -39,6 +40,13 @@ class ProductAdapter(
         holder.binding.root.setOnClickListener {
             onItemClick.invoke(productList[position])
         }
+
+        val backgroundColor = if (position % 2 == 0) {
+            holder.itemView.context.getColor(R.color.evenBackgroundColor)
+        } else {
+            holder.itemView.context.getColor(R.color.oddBackgroundColor)
+        }
+        holder.binding.productCL.setBackgroundColor(backgroundColor)
     }
 
 

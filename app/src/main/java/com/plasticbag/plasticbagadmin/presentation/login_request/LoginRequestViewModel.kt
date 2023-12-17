@@ -26,6 +26,8 @@ class LoginRequestViewModel(): ViewModel() {
     private var _notVerifiedUsersLiveData = MutableLiveData<List<LoginRequest>>()
     val notVerifiedUsersLiveData: LiveData<List<LoginRequest>> get() = _notVerifiedUsersLiveData
 
+    var errorCallBack: ((String) -> Unit)? = null
+
     fun getNotVerifiedUsers() {
         database.child(ADMIN).child(USER_LOGIN).child(NOT_VERIFIED).addValueEventListener(object :
             ValueEventListener {
@@ -44,7 +46,7 @@ class LoginRequestViewModel(): ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                errorCallBack?.invoke(error.message)
             }
 
         })
@@ -68,7 +70,7 @@ class LoginRequestViewModel(): ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                errorCallBack?.invoke(error.message)
             }
 
         })

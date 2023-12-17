@@ -36,17 +36,14 @@ class DeliveredOrderAdapter(): RecyclerView.Adapter<DeliveredOrderAdapter.Pendin
 
         holder.binding.title.text = orderList[position].productDetails.title
         holder.binding.quantity.text = orderList[position].productDetails.quantity + " kg"
-        holder.binding.bayerAddress.text = orderList[position].userDetails.address
         holder.binding.bayerName.text = orderList[position].userDetails.name
         holder.binding.bayerPhoneNo.text = orderList[position].userDetails.phoneNo
 
-        holder.binding.deliveredProduct.visibility = View.VISIBLE
         holder.binding.addQuantity.visibility = View.GONE
         holder.binding.minusQuantity.visibility = View.GONE
         holder.binding.deleteProduct.visibility = View.GONE
         holder.binding.dispatchProduct.visibility = View.GONE
         holder.binding.editQuantity.visibility = View.GONE
-        holder.binding.deliveredProduct.visibility = View.GONE
 
         holder.binding.expandArrow.setOnClickListener {
             if (holder.binding.moreDetailsCl.isVisible) {
